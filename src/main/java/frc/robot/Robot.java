@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 //import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
+//import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.SparkMaxPIDController;
@@ -48,8 +48,8 @@ public class Robot extends TimedRobot {
   private final CANSparkMax m_leftFollower = new CANSparkMax(4, MotorType.kBrushless);
  private final CANSparkMax m_Lift = new CANSparkMax(5, MotorType.kBrushless); 
  // Above for fake robot, change 99 to 5
- private final SparkMaxLimitSwitch m_ForwardLimit =  m_Lift.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
- private final SparkMaxLimitSwitch m_ReverseLimit =  m_Lift.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+ // private final SparkMaxLimitSwitch m_ForwardLimit =  m_Lift.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+ // private final SparkMaxLimitSwitch m_ReverseLimit =  m_Lift.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
    
  private final CANSparkMax m_Climb = new CANSparkMax(7, MotorType.kBrushless);
  //private final CANSparkMax m_AloneClimb = new CANSparkMax(7, MotorType.kBrushless);
