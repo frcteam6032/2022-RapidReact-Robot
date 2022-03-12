@@ -31,9 +31,9 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 public class Robot extends TimedRobot {
   
-// Create motor instances
+  // Create motor instances
 
-//private SparkMaxPIDController m_pidController;
+  //private SparkMaxPIDController m_pidController;
 
   private final CANSparkMax m_rightMotor = new CANSparkMax(1, MotorType.kBrushless);
   private final CANSparkMax m_rightFollower = new CANSparkMax(2, MotorType.kBrushless);
@@ -106,9 +106,9 @@ public class Robot extends TimedRobot {
     }
     return;
   }
-*/
+ */
 
-/*// Create PID instances
+ /*// Create PID instances
 
     private SparkMaxPIDController m_pidControllerRight;
     private SparkMaxPIDController m_pidControllerLeft;
@@ -118,12 +118,12 @@ public class Robot extends TimedRobot {
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
-*/
-// Create drive instance
+ */
+ // Create drive instance
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
   
-// Create Xbox Controller instance
+  // Create Xbox Controller instance
 
   private final XboxController m_driverController = new XboxController(0);
   private final XboxController m_driverController2 = new XboxController(1);
@@ -144,11 +144,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     
     m_led = new AddressableLED(1);
-m_ledBuffer = new AddressableLEDBuffer(60);
-for(var i = 0; i <  6; i++) {
-m_ledBuffer.setRGB(i, 255, 0, 0);
-
-}
+    m_ledBuffer = new AddressableLEDBuffer(60);
+    for(var i = 0; i <  6; i++) {
+      m_ledBuffer.setRGB(i, 255, 0, 0);
+    }
    // m_pidController = m_Lift.getPIDController();
     
 
@@ -166,7 +165,7 @@ m_ledBuffer.setRGB(i, 255, 0, 0);
 
     m_ClimbFollower.setInverted(true);
     
-/*
+    /*
     kP = 0.5; 
     kI = 0;
     kD = 0.5; 
@@ -183,7 +182,7 @@ m_ledBuffer.setRGB(i, 255, 0, 0);
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-*/
+    */
 
     
   /*// initialze PID controller and encoder objects
@@ -281,11 +280,10 @@ m_ledBuffer.setRGB(i, 255, 0, 0);
       
     // Start Microsoft camera capture
     m_Lift.burnFlash();
-      camera = CameraServer.startAutomaticCapture(0);
+    camera = CameraServer.startAutomaticCapture(0);
 
     // Make sure camera is always on.
-
-      camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
   }
 
@@ -323,19 +321,17 @@ m_ledBuffer.setRGB(i, 255, 0, 0);
 
 
   @Override
-
   public void teleopInit() {
-//m_Intake.set((.3));
-  m_ClimbFollower.follow(m_Climb, true);
-  m_leftMotor.setIdleMode(IdleMode.kBrake);
-  m_rightMotor.setIdleMode(IdleMode.kBrake);
-  m_leftFollower.setIdleMode(IdleMode.kBrake);
-  m_rightFollower.setIdleMode(IdleMode.kBrake);
+    //m_Intake.set((.3));
+    m_ClimbFollower.follow(m_Climb, true);
+    m_leftMotor.setIdleMode(IdleMode.kBrake);
+    m_rightMotor.setIdleMode(IdleMode.kBrake);
+    m_leftFollower.setIdleMode(IdleMode.kBrake);
+    m_rightFollower.setIdleMode(IdleMode.kBrake);
   }
-  @Override
   
-  public void 
-  teleopPeriodic() { 
+  @Override
+  public void teleopPeriodic() { 
     /*
     SmartDashboard.putNumber("Time", counter++);
     SmartDashboard.putNumber("trigger", m_driverController.getRightTriggerAxis());
@@ -344,131 +340,98 @@ m_ledBuffer.setRGB(i, 255, 0, 0);
     SmartDashboard.putNumber("pov", m_driverController.getPOV());
     SmartDashboard.putBoolean("FWD Limit", m_ForwardLimit.isPressed());
     SmartDashboard.putBoolean("REV Limit", m_ReverseLimit.isPressed());
-*/
+    */
 
-  /* Drive with tank drive or arcade drive using an xbox controller. The chosen driver
+    /* Drive with tank drive or arcade drive using an xbox controller. The chosen driver
      driver will make the final choice. */
 
-   //m_robotDrive.tankDrive(-m_driverController.getLeftY(), -m_driverController.getRightY());
+    //m_robotDrive.tankDrive(-m_driverController.getLeftY(), -m_driverController.getRightY());
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX(), true);
    
     
-    if ( // Positive = Raised
-      m_driverController2.getRightTriggerAxis() > .9
-    ){m_Climb.set(.5);}
+    
+    // Positive = Raise
+    if (  m_driverController2.getRightTriggerAxis() > .9){ 
+      m_Climb.set(.5);
+    }
+    // Negative = Lower
+    else if (m_driverController2.getLeftTriggerAxis() > .9){
+      m_Climb.set(-.5);
+    }
+    //Turns off climb when no button is pressed
+    else if (m_driverController2.getLeftTriggerAxis() == 0){
+      m_Climb.set(0);
+    }
 
-    else if ( // Negative = Lowered
-      m_driverController2.getLeftTriggerAxis() > .9
-    ){m_Climb.set(-.5);}
-    else if //Turns off clime when no button is pressed
-    (m_driverController2.getLeftTriggerAxis() == 0)
-    {m_Climb.set(0);}
-
-//lower lift when up arrow is pressed
-  if (m_driverController2.getLeftBumper()) {
+    //lower lift when up arrow is pressed
+    if (m_driverController2.getLeftBumper()) {
       m_Intake.set(.5);
     }
 
-    if ( //disable intake
-    m_driverController2.getBButton()
-  ){
-    m_Intake.set(0);
-    m_Climb.set(0);
-  }
+    //disable intake
+    if (m_driverController2.getBButton()){
+      m_Intake.set(0);
+      m_Climb.set(0);
+    }
 
-    if( //lower lift when down arrow is pressed
-      m_driverController2.getRightBumper()
-    ){
+    //lower lift when down arrow is pressed
+    if(m_driverController2.getRightBumper()){
       m_Intake.set(-1);
     }
 
-
-   if( //lower lift when pressed
-    m_driverController2.getPOV() == 180){
+    //lower lift when pressed
+    if( m_driverController2.getPOV() == 180){
       m_Lift.set(-.1);
     } 
-
-     else if( //higher lift when pressed
-    m_driverController2.getPOV() == 0){
+     //higher lift when pressed
+    else if(m_driverController2.getPOV() == 0){
       m_Lift.set(.25);
-      
     }
-    else { //Stop lift when no button is pressed
+    //Stop lift when no button is pressed
+    else { 
       m_Lift.set(0);
     }
 
   
-
-    /*//  if(
-   m_driverController.getRightBumperPressed() ){
-   ;}
-
-
-
-   if(m_driverController.getAButton())
-   {try 
-     {Lift();} //Controls the lift
-   catch 
-   (InterruptedException e) {
-    e.printStackTrace(); 
-  }
-
-
-
-  if(m_driverController.getXButton())
-  {try 
-    {Climb();} 
-    catch 
-    (InterruptedException e) {
-    
-    e.printStackTrace();
-
-    
-  }
-}
-}
-*/
-
+   
   }
 
   @Override
 
   public void testInit() {
-m_ClimbFollower.restoreFactoryDefaults();
-
+    m_ClimbFollower.restoreFactoryDefaults();
   }
   
   @Override
 
   public void testPeriodic() {
 
-  
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX());
   
-// Below controls Joe
-  if (m_driverController.getRightBumper()){
-  //  SmartDashboard.putNumber("bob", 1);
-    m_ClimbFollower.set(.3); // Positive = Raised
-  } else if (
-    m_driverController.getRightTriggerAxis() > .9)
-   {
-  //  SmartDashboard.putNumber("bob", -1);
-   m_ClimbFollower.set(-.3); // Negative = Lowered
-  } else {
-  m_ClimbFollower.set(0);
-  //SmartDashboard.putNumber("bob", 0);
-  }
-  
-// Below controls Dificíl
-  if (m_driverController.getLeftBumper()){
-    m_Climb.set(-.3); // Positive = Raised
-  } else if (
-    m_driverController.getLeftTriggerAxis() > .9
-  ) {
-    m_Climb.set(.3); // Negative = Lowered
-  } else {
-    m_Climb.set(0);
-  }
+    // Below controls Joe
+    if (m_driverController.getRightBumper()){
+    //  SmartDashboard.putNumber("bob", 1);
+      m_ClimbFollower.set(.3); // Positive = Raised
+    } else if (
+      m_driverController.getRightTriggerAxis() > .9)
+    {
+    //  SmartDashboard.putNumber("bob", -1);
+    m_ClimbFollower.set(-.3); // Negative = Lowered
+    } else {
+    m_ClimbFollower.set(0);
+    //SmartDashboard.putNumber("bob", 0);
+    }
+    
+    // Below controls Dificíl
+    if (m_driverController.getLeftBumper()){
+      m_Climb.set(-.3); // Positive = Raised
+    } else if (
+      m_driverController.getLeftTriggerAxis() > .9
+    ) {
+      m_Climb.set(.3); // Negative = Lowered
+    } else {
+      m_Climb.set(0);
+    }
 
   }
 
