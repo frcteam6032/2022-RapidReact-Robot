@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 
-
 //import com.revrobotics.RelativeEncoder;
 //import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
@@ -29,12 +28,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
-/**
- * Before Running:
- * Open shuffleBoard, select File->Load Layout and select the 
- * shuffleboard.json that is in the root directory of this example
- */
-
 
 public class Robot extends TimedRobot {
   
@@ -46,75 +39,73 @@ public class Robot extends TimedRobot {
   private final CANSparkMax m_rightFollower = new CANSparkMax(2, MotorType.kBrushless);
   private final CANSparkMax m_leftMotor = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_leftFollower = new CANSparkMax(4, MotorType.kBrushless);
- private final CANSparkMax m_Lift = new CANSparkMax(5, MotorType.kBrushless); 
- // Above for fake robot, change 99 to 5
- // private final SparkMaxLimitSwitch m_ForwardLimit =  m_Lift.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
- // private final SparkMaxLimitSwitch m_ReverseLimit =  m_Lift.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+  private final CANSparkMax m_Lift = new CANSparkMax(5, MotorType.kBrushless); 
+  // Above for fake robot, change 99 to 5
+  // private final SparkMaxLimitSwitch m_ForwardLimit =  m_Lift.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+  // private final SparkMaxLimitSwitch m_ReverseLimit =  m_Lift.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
    
- private final CANSparkMax m_Climb = new CANSparkMax(7, MotorType.kBrushless);
- //private final CANSparkMax m_AloneClimb = new CANSparkMax(7, MotorType.kBrushless);
- private final CANSparkMax m_ClimbFollower = new CANSparkMax(8, MotorType.kBrushless);
- private final CANSparkMax m_Intake = new CANSparkMax(6, MotorType.kBrushed);
-AddressableLED m_led;
-AddressableLEDBuffer m_ledBuffer;
- // private RelativeEncoder m_encoder =  m_Lift.getEncoder();
-  //public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  private final CANSparkMax m_Climb = new CANSparkMax(7, MotorType.kBrushless);
+  private final CANSparkMax m_ClimbFollower = new CANSparkMax(8, MotorType.kBrushless);
+  private final CANSparkMax m_Intake = new CANSparkMax(6, MotorType.kBrushed);
+  AddressableLED m_led;
+  AddressableLEDBuffer m_ledBuffer;
+  // private RelativeEncoder m_encoder =  m_Lift.getEncoder();
+  // public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   double counter = 0;
   //boolean DidRun = false;
   // true = raised
   /*//
- private boolean LiftState = true;
- private boolean ClimbState = true;
+ 
+  private boolean LiftState = true;
+  private boolean ClimbState = true;
   private final void StartIntake() {
-   m_Intake.set(0);
-   try {
-    Thread.sleep(1000);
-  } catch (InterruptedException e) {
-   
-    e.printStackTrace();
+    m_Intake.set(0);
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    m_Intake.set(-0.3);
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    m_Intake.set(0.3);
+    return;
   }
-m_Intake.set(-0.3);
-try {
-  Thread.sleep(1000);
-} catch (InterruptedException e) {
-  
-  e.printStackTrace();
-}
-m_Intake.set(0.3);
-  return;
- }
- // true = raised ; false = lowered
- private final void Lift() throws InterruptedException {
-if (LiftState == true) {
-  m_Lift.set(-0.15); 
-  Thread.sleep(2000);
-m_Lift.set(0);
-LiftState = false;}
-else {
-  m_Lift.set(0.15); 
-  Thread.sleep(2000);
-m_Lift.set(0);
-LiftState = true;
-}
-  return;
- }
-  // Need to define intake and lift motors
+ 
+  // true = raised ; false = lowered
+  private final void Lift() throws InterruptedException {
+    if (LiftState == true) {
+      m_Lift.set(-0.15); 
+      Thread.sleep(2000);
+      m_Lift.set(0);
+      LiftState = false;}
+    else {
+      m_Lift.set(0.15); 
+      Thread.sleep(2000);
+      m_Lift.set(0);
+      LiftState = true;
+    }
+    return;
+  }
 
   // true = raised ; false = lowered
   private final void Climb() throws InterruptedException {
-  if (ClimbState == true) {
-    m_Climb.set(0.1); 
-    Thread.sleep(2000);
-  m_Climb.set(0);
-  ClimbState = false;}
-  else {
-    m_Climb.set(-0.1); 
-    Thread.sleep(2000);
-  m_Climb.set(0);
-  ClimbState = true;
-  }
+    if (ClimbState == true) {
+      m_Climb.set(0.1); 
+      Thread.sleep(2000);
+      m_Climb.set(0);
+      ClimbState = false;}
+    else {
+      m_Climb.set(-0.1); 
+      Thread.sleep(2000);
+      m_Climb.set(0);
+      ClimbState = true;
+    }
     return;
-   }
+  }
 */
 
 /*// Create PID instances
@@ -143,8 +134,6 @@ LiftState = true;
   double autoTimeElapsed = 0;
   UsbCamera camera;
 
-
-  
   /**
   * This function runs when the robot is first started up.  Insert robot initialization code in 
   * this function
