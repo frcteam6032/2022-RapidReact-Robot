@@ -94,7 +94,6 @@ public class Robot extends TimedRobot {
     m_ClimbFollower.setInverted(true);
       
     // Start Microsoft camera capture
-    m_Lift.burnFlash();
     camera = CameraServer.startAutomaticCapture(0);
 
     // Make sure camera is always on.
