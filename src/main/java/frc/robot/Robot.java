@@ -69,69 +69,13 @@ public class Robot extends TimedRobot {
   double autoTimeElapsed = 0;
   double counter = 0;
   
-  //boolean DidRun = false;
-  // true = raised
-  /*//
- 
-  private boolean LiftState = true;
-  private boolean ClimbState = true;
-  private final void StartIntake() {
-    m_Intake.set(0);
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    m_Intake.set(-0.3);
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    m_Intake.set(0.3);
-    return;
-  }
- 
-  // true = raised ; false = lowered
-  private final void Lift() throws InterruptedException {
-    if (LiftState == true) {
-      m_Lift.set(-0.15); 
-      Thread.sleep(2000);
-      m_Lift.set(0);
-      LiftState = false;}
-    else {
-      m_Lift.set(0.15); 
-      Thread.sleep(2000);
-      m_Lift.set(0);
-      LiftState = true;
-    }
-    return;
-  }
-
-  // true = raised ; false = lowered
-  private final void Climb() throws InterruptedException {
-    if (ClimbState == true) {
-      m_Climb.set(0.1); 
-      Thread.sleep(2000);
-      m_Climb.set(0);
-      ClimbState = false;}
-    else {
-      m_Climb.set(-0.1); 
-      Thread.sleep(2000);
-      m_Climb.set(0);
-      ClimbState = true;
-    }
-    return;
-  }
- */  
-
+  
   /**
   * This function runs when the robot is first started up.  Insert robot initialization code in 
   * this function
   */
 
   @Override
-
   public void robotInit() {
     
     m_led = new AddressableLED(1);
