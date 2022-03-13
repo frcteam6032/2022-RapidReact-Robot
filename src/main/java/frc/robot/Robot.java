@@ -268,11 +268,11 @@ public class Robot extends TimedRobot {
   
     /**
      * Climbing arm adjustments with right/left bumper and triggers
-     *    Left Bumper: Raise Left Arm
-     *    Left Trigger: Lower Left Arm
-     * 
      *    Right Bumper: Raise Right Arm
      *    Right Trigger: Lower Right Arm
+     *
+     *    Left Bumper: Raise Left Arm
+     *    Left Trigger: Lower Left Arm
      */
     // Below controls Joe
     if (m_driverController.getRightBumper()){
