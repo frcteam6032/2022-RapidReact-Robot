@@ -5,6 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/**
+ * Code Outline:
+ * - Initial imports for libraries
+ * - TimedRobot: All code sits inside this class
+ *    - robotInit: Runs once at beginning
+ *    - autonomousInit: Runs once at beginning of auto
+ *    - autonomousPeriodic: Runs in a loop during auto
+ *    - teleopInit: Runs once at beginning of teleop
+ *    - teleopPeriodic: Runs in a loop during teleop
+ *    - testInit: Runs once at beginning of test
+ *    - testPeriodic: Runs in a loop during test
+ */
 package frc.robot;
 
 // Import standard robot classes
