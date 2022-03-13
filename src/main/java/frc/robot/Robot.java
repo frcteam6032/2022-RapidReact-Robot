@@ -70,11 +70,7 @@ public class Robot extends TimedRobot {
   double counter = 0;
   
   
-  /**
-  * This function runs when the robot is first started up.  Insert robot initialization code in 
-  * this function
-  */
-
+  /** robotInit: This function runs when the robot is first started up. */
   @Override
   public void robotInit() {
     
@@ -106,6 +102,8 @@ public class Robot extends TimedRobot {
 
   }
 
+  
+  /** autonomousInit: This function is called once when autonomous is enabled.  */
   @Override
   public void autonomousInit() {
  
@@ -116,6 +114,8 @@ public class Robot extends TimedRobot {
     m_rightFollower.setIdleMode(IdleMode.kCoast);
   }
 
+  
+  /** autonomousPeriodic: This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
 
@@ -136,7 +136,8 @@ public class Robot extends TimedRobot {
     } 
   } 
 
-
+  
+  /** teleopInit: This function is called once when teleop is enabled.  */
   @Override
   public void teleopInit() {
     //m_Intake.set((.3));
@@ -147,6 +148,8 @@ public class Robot extends TimedRobot {
     m_rightFollower.setIdleMode(IdleMode.kBrake);
   }
   
+  
+  /** teleopPeriodic: This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() { 
     /*
@@ -213,11 +216,15 @@ public class Robot extends TimedRobot {
    
   }
 
+  
+  /** testInit: This function is called once when test is enabled.  */
   @Override
   public void testInit() {
     m_ClimbFollower.restoreFactoryDefaults();
   }
   
+  
+  /** testPeriodic: This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
 
