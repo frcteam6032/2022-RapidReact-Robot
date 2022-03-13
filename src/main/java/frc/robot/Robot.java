@@ -36,26 +36,41 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 public class Robot extends TimedRobot {
   
   // Create motor instances
-
-  //private SparkMaxPIDController m_pidController;
-
   private final CANSparkMax m_rightMotor = new CANSparkMax(1, MotorType.kBrushless);
   private final CANSparkMax m_rightFollower = new CANSparkMax(2, MotorType.kBrushless);
   private final CANSparkMax m_leftMotor = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_leftFollower = new CANSparkMax(4, MotorType.kBrushless);
   private final CANSparkMax m_Lift = new CANSparkMax(5, MotorType.kBrushless); 
-  // Above for fake robot, change 99 to 5
+  private final CANSparkMax m_Intake = new CANSparkMax(6, MotorType.kBrushed);
+  private final CANSparkMax m_Climb = new CANSparkMax(7, MotorType.kBrushless);
+  private final CANSparkMax m_ClimbFollower = new CANSparkMax(8, MotorType.kBrushless);
+  
+  // Create drive instance
+  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  
+  // Create Xbox Controller instances
+  private final XboxController m_driverController = new XboxController(0);
+  private final XboxController m_driverController2 = new XboxController(1);
+  
+  // Create limit switche instances (only needed to display their value)
   // private final SparkMaxLimitSwitch m_ForwardLimit =  m_Lift.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
   // private final SparkMaxLimitSwitch m_ReverseLimit =  m_Lift.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
    
-  private final CANSparkMax m_Climb = new CANSparkMax(7, MotorType.kBrushless);
-  private final CANSparkMax m_ClimbFollower = new CANSparkMax(8, MotorType.kBrushless);
-  private final CANSparkMax m_Intake = new CANSparkMax(6, MotorType.kBrushed);
+  // Create camera instance
+  UsbCamera camera;
+  
+  // Create led instances
   AddressableLED m_led;
   AddressableLEDBuffer m_ledBuffer;
+  
+  // Define global variables need within the code
+  double startTime = 0;
+  double curTime = 0;
+  double autoTimeElapsed = 0;
+  double counter = 0;
+  
   // private RelativeEncoder m_encoder =  m_Lift.getEncoder();
   // public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-  double counter = 0;
   //boolean DidRun = false;
   // true = raised
   /*//
@@ -123,20 +138,8 @@ public class Robot extends TimedRobot {
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
  */
- // Create drive instance
-
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+ 
   
-  // Create Xbox Controller instance
-
-  private final XboxController m_driverController = new XboxController(0);
-  private final XboxController m_driverController2 = new XboxController(1);
-  // Define global variables need within the code
-
-  double startTime = 0;
-  double curTime = 0;
-  double autoTimeElapsed = 0;
-  UsbCamera camera;
 
   /**
   * This function runs when the robot is first started up.  Insert robot initialization code in 
