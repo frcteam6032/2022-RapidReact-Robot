@@ -7,27 +7,31 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+// Import standard robot classes
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 
-//import com.revrobotics.RelativeEncoder;
-//import com.revrobotics.SparkMaxPIDController;
+// Import the LED Classes
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+
+// Import the REV Robotic (3rd party) Classes
 import com.revrobotics.CANSparkMax;
-//import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax.IdleMode;
-//import com.revrobotics.RelativeEncoder;
-//import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+// Import the Camera Classes
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
+// Imports no longer used (left here just in case)
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import com.revrobotics.RelativeEncoder;
+//import com.revrobotics.SparkMaxPIDController;
+//import com.revrobotics.SparkMaxLimitSwitch;
 
 public class Robot extends TimedRobot {
   
