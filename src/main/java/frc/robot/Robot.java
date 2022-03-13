@@ -196,50 +196,56 @@ public class Robot extends TimedRobot {
     //m_robotDrive.tankDrive(-m_driverController.getLeftY(), -m_driverController.getRightY());
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX(), true);
   
-    
-    // Positive = Raise
+    /** 
+     * Look for trigger inputs and set climber motors accordingly
+     *    Right Trigger: Climber Motor Forward
+     *    Left Trigger: Climber Motor Reverse
+     *    No Left Trigger: Climber Motor Off
+     */
     if (  m_driverController2.getRightTriggerAxis() > .9){ 
-      m_Climb.set(.5);
+      m_Climb.set(.5); // Positive = Raise
     }
-    // Negative = Lower
     else if (m_driverController2.getLeftTriggerAxis() > .9){
-      m_Climb.set(-.5);
+      m_Climb.set(-.5); // Positive = Raise
     }
-    //Turns off climb when no button is pressed
     else if (m_driverController2.getLeftTriggerAxis() == 0){
-      m_Climb.set(0);
+      m_Climb.set(0); // Turns off climb when left button is not pressed
+      // TODO: This should probably just be an else, not elseif
     }
 
-    //lower lift when up arrow is pressed
+    // If left bumper is ever pressed, enable intake motor
     if (m_driverController2.getLeftBumper()) {
       m_Intake.set(.5);
     }
 
-    //disable intake
+    // If B is ever pressed, disable intake and climb 
     if (m_driverController2.getBButton()){
       m_Intake.set(0);
       m_Climb.set(0);
     }
 
-    //lower lift when down arrow is pressed
+    // If right bumper is ever pressed, shoot intake
     if(m_driverController2.getRightBumper()){
       m_Intake.set(-1);
     }
 
-    //lower lift when pressed
+    // If D-pad is ever pressed down, shoot intake
+    
+    /** 
+     * Look for D-Pad inputs and set lift motor accordingly
+     *    Down: Lower Lift Arm
+     *    Up: Raise Lift Arm
+     *    Nothing: Lift Arm Off
+     */
     if( m_driverController2.getPOV() == 180){
-      m_Lift.set(-.1);
+      m_Lift.set(-.1);  // Lower lift arm
     } 
-     //higher lift when pressed
     else if(m_driverController2.getPOV() == 0){
-      m_Lift.set(.25);
+      m_Lift.set(.25); // Raise lift arm
     }
-    //Stop lift when no button is pressed
     else { 
-      m_Lift.set(0);
+      m_Lift.set(0);  //Stop lift arm
     }
-
-  
    
   }
 
