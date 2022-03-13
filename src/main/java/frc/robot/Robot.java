@@ -69,8 +69,6 @@ public class Robot extends TimedRobot {
   double autoTimeElapsed = 0;
   double counter = 0;
   
-  // private RelativeEncoder m_encoder =  m_Lift.getEncoder();
-  // public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   //boolean DidRun = false;
   // true = raised
   /*//
@@ -125,21 +123,7 @@ public class Robot extends TimedRobot {
     }
     return;
   }
- */
-
- /*// Create PID instances
-
-    private SparkMaxPIDController m_pidControllerRight;
-    private SparkMaxPIDController m_pidControllerLeft;
-
-    private RelativeEncoder m_encoderRight;
-    private RelativeEncoder m_encoderLeft;
-
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
-
- */
- 
-  
+ */  
 
   /**
   * This function runs when the robot is first started up.  Insert robot initialization code in 
@@ -155,135 +139,19 @@ public class Robot extends TimedRobot {
     for(var i = 0; i <  6; i++) {
       m_ledBuffer.setRGB(i, 255, 0, 0);
     }
-   // m_pidController = m_Lift.getPIDController();
     
 
-  /* Invert one side of the drivetrain so that positive voltages
-  *  result in both sides moving forward. The practice robot's
-  *  gearbox is constructed such that we have to invert the right side.
-  *  Also set the follow motors to follow the respective lead motors
-  */
+    /* Invert one side of the drivetrain so that positive voltages
+    *  result in both sides moving forward. The practice robot's
+    *  gearbox is constructed such that we have to invert the right side.
+    *  Also set the follow motors to follow the respective lead motors
+    */
 
     m_rightMotor.setInverted(true);
     m_leftFollower.follow(m_leftMotor);
     m_rightFollower.follow(m_rightMotor);
 
-    
-
     m_ClimbFollower.setInverted(true);
-    
-    /*
-    kP = 0.5; 
-    kI = 0;
-    kD = 0.5; 
-    kIz = 0.1; 
-    kFF = 0.1; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
-
-   
-    
-    m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-    m_pidController.setIZone(kIz);
-    m_pidController.setFF(kFF);
-    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    */
-
-    
-  /*// initialze PID controller and encoder objects
-
-    m_pidControllerRight = m_rightMotor.getPIDController();
-    m_encoderRight = m_rightMotor.getEncoder();
-
-    m_pidControllerLeft = m_leftMotor.getPIDController();
-    m_encoderLeft = m_leftMotor.getEncoder();
- 
-  // PID coefficients
-
-    kP = 5e-5; 
-    kI = 1e-6;
-    kD = 0; 
-    kIz = 0; 
-    kFF = 0.000156; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
-    maxRPM = 5700;
-
-  // Smart Motion Coefficients
-
-    maxVel = 2000; // rpm
-    maxAcc = 1500;
- 
-  // set PID coefficients
-  
-
-    m_pidControllerRight.setP(kP);
-    m_pidControllerRight.setI(kI);
-    m_pidControllerRight.setD(kD);
-    m_pidControllerRight.setIZone(kIz);
-    m_pidControllerRight.setFF(kFF);
-    m_pidControllerRight.setOutputRange(kMinOutput, kMaxOutput);
-
-    m_pidControllerLeft.setP(kP);
-    m_pidControllerLeft.setI(kI);
-    m_pidControllerLeft.setD(kD);
-    m_pidControllerLeft.setIZone(kIz);
-    m_pidControllerLeft.setFF(kFF);
-    m_pidControllerLeft.setOutputRange(kMinOutput, kMaxOutput);*/
-
-  /**
-   * Smart Motion coefficients are set on a SparkMaxPIDController object
-   * 
-   * - setSmartMotionMaxVelocity() will limit the velocity in RPM of
-   *   the pid controller in Smart Motion mode
-   * - setSmartMotionMinOutputVelocity() will put a lower bound in
-   *   RPM of the pid controller in Smart Motion mode
-   * - setSmartMotionMaxAccel() will limit the acceleration in RPM^2
-   *   of the pid controller in Smart Motion mode
-   * - setSmartMotionAllowedClosedLoopError() will set the max allowed
-   *   error for the pid controller in Smart Motion mode
-   */
-
-    /*  int smartMotionSlot = 0;
-
-      m_pidControllerRight.setSmartMotionMaxVelocity(maxVel, smartMotionSlot);
-      m_pidControllerRight.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
-      m_pidControllerRight.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
-      m_pidControllerRight.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-
-      m_pidControllerLeft.setSmartMotionMaxVelocity(maxVel, smartMotionSlot);
-      m_pidControllerLeft.setSmartMotionMinOutputVelocity(minVel, smartMotionSlot);
-      m_pidControllerLeft.setSmartMotionMaxAccel(maxAcc, smartMotionSlot);
-      m_pidControllerLeft.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlot);
-
-    // display PID coefficients on SmartDashboard
-
-      SmartDashboard.putNumber("P Gain", kP);
-      SmartDashboard.putNumber("I Gain", kI);
-      SmartDashboard.putNumber("D Gain", kD);
-      SmartDashboard.putNumber("I Zone", kIz);
-      SmartDashboard.putNumber("Feed Forward", kFF);
-      SmartDashboard.putNumber("Max Output", kMaxOutput);
-      SmartDashboard.putNumber("Min Output", kMinOutput);
-
-    // display Smart Motion coefficients
-
-      SmartDashboard.putNumber("Max Velocity", maxVel);
-      SmartDashboard.putNumber("Min Velocity", minVel);
-      SmartDashboard.putNumber("Max Acceleration", maxAcc);
-      SmartDashboard.putNumber("Allowed Closed Loop Error", allowedErr);
-      SmartDashboard.putNumber("Set Position", 0);
-      SmartDashboard.putNumber("Set Velocity", 0);
-  
-    // button to toggle between velocity and smart motion modes
-
-      SmartDashboard.putBoolean("Mode", true);
-      */
-  
-      //m_Lift.burnFlash();
-      //Automatic
       
     // Start Microsoft camera capture
     m_Lift.burnFlash();
@@ -295,7 +163,6 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-
   public void autonomousInit() {
  
     startTime = Timer.getFPGATimestamp();
@@ -306,7 +173,6 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-
   public void autonomousPeriodic() {
 
     autoTimeElapsed = Timer.getFPGATimestamp() - startTime;
@@ -404,13 +270,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-
   public void testInit() {
     m_ClimbFollower.restoreFactoryDefaults();
   }
   
   @Override
-
   public void testPeriodic() {
 
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX());
@@ -440,7 +304,5 @@ public class Robot extends TimedRobot {
       m_Climb.set(0);
     }
 
-  }
-
-  
+  }  
 }
