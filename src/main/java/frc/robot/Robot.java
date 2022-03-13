@@ -104,7 +104,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
  
+    // Get the initial time value
     startTime = Timer.getFPGATimestamp();
+    
+    // Set the drive motors to coast mode
     m_leftMotor.setIdleMode(IdleMode.kCoast);
     m_rightMotor.setIdleMode(IdleMode.kCoast);
     m_leftFollower.setIdleMode(IdleMode.kCoast);
@@ -115,22 +118,44 @@ public class Robot extends TimedRobot {
   /** autonomousPeriodic: This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    /** 
+     * Single autonomous play:
+     *  1. Immediately shoot the ball for 2.5 seconds
+     *  2. At 2.5 seconds, turn off shoot and move in reverse
+     *  3. At 4.5 seconds, stop the robot
+    */
 
+    // Update the time elapsed value
     autoTimeElapsed = Timer.getFPGATimestamp() - startTime;
  
+    // Process the automous play stages
     if (autoTimeElapsed < 2.5) {
+      // Stage 1: Shooting
       m_Intake.set(-1);
     }
     else if (autoTimeElapsed < 4.5) {
+      // Stage 2: Reverse the robot
       m_Intake.set(0);
       m_rightMotor.set(-0.3);
       m_leftMotor.set(-0.3);
-      //m_robotDrive.tankDrive(-0.3, -0.3);
     } 
     else {
+      // Stage 3: Stop the robot
       m_rightMotor.set(0);
       m_leftMotor.set(0);
-    } 
+    }
+    
+    /** 
+     * Note: DriveTrain Motor Safety errors are thrown during this section.
+     * The motors get set to 0, but then reset to -0.3.  
+     * With the motors in "coast" mode, this issue is not noticeable 
+     * 
+     * Possible fix by replacing the m_rightMotor.set(x) and m_leftMotor.set(x)
+     * commands with an equivalent m_robotDrive.arcadeDrive command, such as
+     * m_robotDrive.arcadeDrive(x, 0, false)
+     * 
+     * This fix has been tested on deployed code.
+    */    
   } 
 
   
@@ -138,7 +163,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //m_Intake.set((.3));
+    
+    // Enables climb follower (resets to factory in test mode)
     m_ClimbFollower.follow(m_Climb, true);  // "True" sets follower as inverted
+    
+    // Set the drive motors to brake mode
     m_leftMotor.setIdleMode(IdleMode.kBrake);
     m_rightMotor.setIdleMode(IdleMode.kBrake);
     m_leftFollower.setIdleMode(IdleMode.kBrake);
@@ -149,7 +178,9 @@ public class Robot extends TimedRobot {
   /** teleopPeriodic: This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() { 
+    
     /*
+    // Smart Dashboard display commands for debugging
     SmartDashboard.putNumber("Time", counter++);
     SmartDashboard.putNumber("trigger", m_driverController.getRightTriggerAxis());
     SmartDashboard.putBoolean("A button", m_driverController.getAButton());
@@ -164,8 +195,7 @@ public class Robot extends TimedRobot {
 
     //m_robotDrive.tankDrive(-m_driverController.getLeftY(), -m_driverController.getRightY());
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX(), true);
-   
-    
+  
     
     // Positive = Raise
     if (  m_driverController2.getRightTriggerAxis() > .9){ 
