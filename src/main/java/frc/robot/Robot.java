@@ -206,7 +206,7 @@ public class Robot extends TimedRobot {
       m_Climb.set(.5); // Positive = Raise
     }
     else if (m_driverController2.getLeftTriggerAxis() > .9){
-      m_Climb.set(-.5); // Positive = Raise
+      m_Climb.set(-.5); // Negative = Lower
     }
     else if (m_driverController2.getLeftTriggerAxis() == 0){
       m_Climb.set(0); // Turns off climb when left button is not pressed
@@ -253,7 +253,9 @@ public class Robot extends TimedRobot {
   /** testInit: This function is called once when test is enabled.  */
   @Override
   public void testInit() {
+    // Reset the ClimbFollower so it can be run independently in test mode
     m_ClimbFollower.restoreFactoryDefaults();
+    m_ClimbFollower.setInverted(true);  //THIS NEEDS TO BE TESTED FOR DIRECTION
   }
   
   
@@ -261,32 +263,33 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
 
+    // Enable operator control for driving
     m_robotDrive.arcadeDrive(-m_driverController.getRightY(), m_driverController.getRightX());
   
+    /**
+     * Climbing arm adjustments with right/left bumper and triggers
+     *    Left Bumper: Raise Left Arm
+     *    Left Trigger: Lower Left Arm
+     * 
+     *    Right Bumper: Raise Right Arm
+     *    Right Trigger: Lower Right Arm
+     */
     // Below controls Joe
     if (m_driverController.getRightBumper()){
-    //  SmartDashboard.putNumber("bob", 1);
-      m_ClimbFollower.set(.3); // Positive = Raised
-    } else if (
-      m_driverController.getRightTriggerAxis() > .9)
-    {
-    //  SmartDashboard.putNumber("bob", -1);
-    m_ClimbFollower.set(-.3); // Negative = Lowered
+      m_ClimbFollower.set(0.3); // Positive = Raised
+    } else if (m_driverController.getRightTriggerAxis() > .9){
+      m_ClimbFollower.set(-0.3); // Negative = Lowered
     } else {
-    m_ClimbFollower.set(0);
-    //SmartDashboard.putNumber("bob", 0);
+      m_ClimbFollower.set(0);
     }
     
-    // Below controls Dificíl
+    // Below controls Dificil
     if (m_driverController.getLeftBumper()){
-      m_Climb.set(-.3); // Positive = Raised
-    } else if (
-      m_driverController.getLeftTriggerAxis() > .9
-    ) {
-      m_Climb.set(.3); // Negative = Lowered
+      m_Climb.set(0.3); // Positive = Raised
+    } else if (m_driverController.getLeftTriggerAxis() > .9){
+      m_Climb.set(-0.3); // Negative = Lowered
     } else {
       m_Climb.set(0);
     }
-
   }  
 }
