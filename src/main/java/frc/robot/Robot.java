@@ -73,13 +73,6 @@ public class Robot extends TimedRobot {
   /** robotInit: This function runs when the robot is first started up. */
   @Override
   public void robotInit() {
-    
-    m_led = new AddressableLED(1);
-    m_ledBuffer = new AddressableLEDBuffer(60);
-    for(var i = 0; i <  6; i++) {
-      m_ledBuffer.setRGB(i, 255, 0, 0);
-    }
-    
 
     /* Invert one side of the drivetrain so that positive voltages
     *  result in both sides moving forward. The practice robot's
@@ -96,6 +89,14 @@ public class Robot extends TimedRobot {
 
     // Make sure camera is always on.
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    // TODO: Test LED Code
+    // Configure LED 
+    m_led = new AddressableLED(1);
+    m_ledBuffer = new AddressableLEDBuffer(60);
+    for(var i = 0; i <  6; i++) {
+      m_ledBuffer.setRGB(i, 255, 0, 0);
+    }
 
   }
 
@@ -202,7 +203,7 @@ public class Robot extends TimedRobot {
      *    Left Trigger: Climber Motor Reverse
      *    No Left Trigger: Climber Motor Off
      */
-    if (  m_driverController2.getRightTriggerAxis() > .9){ 
+    if (m_driverController2.getRightTriggerAxis() > .9){ 
       m_Climb.set(.5); // Positive = Raise
     }
     else if (m_driverController2.getLeftTriggerAxis() > .9){
@@ -256,6 +257,7 @@ public class Robot extends TimedRobot {
     // Reset the ClimbFollower so it can be run independently in test mode
     m_ClimbFollower.restoreFactoryDefaults();
     m_ClimbFollower.setInverted(true);  //THIS NEEDS TO BE TESTED FOR DIRECTION
+    // TODO: Check the m_Climb and m_ClimbFollower directions in test mode
   }
   
   
