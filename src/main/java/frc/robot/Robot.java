@@ -90,8 +90,6 @@ public class Robot extends TimedRobot {
     m_rightMotor.setInverted(true);
     m_leftFollower.follow(m_leftMotor);
     m_rightFollower.follow(m_rightMotor);
-
-    m_ClimbFollower.setInverted(true);
       
     // Start Microsoft camera capture
     camera = CameraServer.startAutomaticCapture(0);
@@ -140,7 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     //m_Intake.set((.3));
-    m_ClimbFollower.follow(m_Climb, true);
+    m_ClimbFollower.follow(m_Climb, true);  // "True" sets follower as inverted
     m_leftMotor.setIdleMode(IdleMode.kBrake);
     m_rightMotor.setIdleMode(IdleMode.kBrake);
     m_leftFollower.setIdleMode(IdleMode.kBrake);
