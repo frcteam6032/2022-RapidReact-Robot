@@ -275,7 +275,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Reset the ClimbFollower so it can be run independently in test mode
     m_ClimbFollower.restoreFactoryDefaults();
-    m_ClimbFollower.setInverted(true);  //THIS NEEDS TO BE TESTED FOR DIRECTION
+    m_ClimbFollower.setInverted(true);  //Invert follower ("Joe") due to opposite orientation
     // TODO: Check the m_Climb and m_ClimbFollower directions in test mode
   }
   
@@ -297,18 +297,18 @@ public class Robot extends TimedRobot {
      */
     // Below controls Joe
     if (m_driverController.getRightBumper()){
-      m_ClimbFollower.set(0.3); // Positive = Raised
+      m_ClimbFollower.set(-0.3); // Negative to extend arm
     } else if (m_driverController.getRightTriggerAxis() > .9){
-      m_ClimbFollower.set(-0.3); // Negative = Lowered
+      m_ClimbFollower.set(0.3); // Positve to retract arm
     } else {
       m_ClimbFollower.set(0);
     }
     
     // Below controls Dificil
     if (m_driverController.getLeftBumper()){
-      m_Climb.set(0.3); // Positive = Raised
+      m_Climb.set(-0.3); // Negative to extend arm
     } else if (m_driverController.getLeftTriggerAxis() > .9){
-      m_Climb.set(-0.3); // Negative = Lowered
+      m_Climb.set(0.3); // Positve to retract arm
     } else {
       m_Climb.set(0);
     }
