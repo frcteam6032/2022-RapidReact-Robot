@@ -104,18 +104,18 @@ public class Robot extends TimedRobot {
 
     // TODO: Test LED Code
     // Configure LED 
-    m_led = new AddressableLED(1); // PWM port 1
-    m_ledBuffer = new AddressableLEDBuffer(60);  // 60 LEDs
-    m_led.setLength(m_ledBuffer.getLength());
+    m_led = new AddressableLED(1); // Create LED Driver on PWM port 1
+    m_ledBuffer = new AddressableLEDBuffer(60);  // Create buffer storage for LED values (60 LEDs)
+    m_led.setLength(m_ledBuffer.getLength());  // Set LED driver length same as the buffer length
     
-    // Sets the specified LED to the RGB values for red
+    // Populate the entire buffer with the desired color
     for(var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 255, 0, 0);
+      m_ledBuffer.setRGB(i, 255, 0, 0);  // 255,0,0 for Red
     }
     
-    // Set the data
+    // Set the buffer as the LED Driver Data
     m_led.setData(m_ledBuffer);
-    m_led.start();
+    m_led.start();  //Start the LED Driver output
 
   }
 
